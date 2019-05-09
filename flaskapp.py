@@ -99,10 +99,11 @@ def get_countryid(country):
         if ems != "" and pop != "":
             percapitanumber = float(ems) / int(pop)
             percapitanumber = format(percapitanumber, ".5f")
-            print(percapitanumber)
+            percapitanumber = float(percapitanumber)
             percapitas.append(percapitanumber)
+            print(type(percapitanumber))
         else:
-            percapitas.append("")
+            percapitas.append(0)
             
         percapitai = percapitai + 1
 
