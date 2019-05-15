@@ -76,8 +76,13 @@ def get_countryid(country):
                     headers.append(row[headeri])
                     headeri = headeri + 1
                 for x in range(4,last):
-                    emissions.append(row[countryi])
-                    countryi = countryi + 1
+                    if row[countryi] != "":
+                        emission = float(row[countryi])
+                        emission = format(emission, ".2f")
+                        emissions.append(emission)
+                        countryi = countryi + 1
+                    else:
+                        emissions.append(0)
 
     #get populations
     with open('population.csv') as populationfile:
