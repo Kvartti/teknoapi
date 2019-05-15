@@ -90,7 +90,6 @@ def get_countryid(country):
             percapitanumber = format(percapitanumber, ".5f")
             percapitanumber = float(percapitanumber)
             percapitas.append(percapitanumber)
-            print(type(percapitanumber))
         else:
             percapitas.append(0)
             
