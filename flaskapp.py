@@ -8,6 +8,7 @@ app.config.from_object(__name__)
 
 CORS(app)
 
+#COUNTRIES
 @app.route('/api/countries', methods=['GET'])
 def get_countries():
     with open('emission.csv') as csvfile:
@@ -25,24 +26,7 @@ def get_countries():
         
     return jsonify({'countries': countries})
 
-
-@app.route('/api/imdeadinside', methods=['GET'])
-def get_death():
-    with open('emission.csv') as csvfile:
-        readCSV = csv.reader(csvfile, delimiter=',')
-        r = csv.reader(csvfile)
-
-        countries = []
-    
-        for i in range(4):
-            next(r)
-        
-        for row in readCSV:
-            countries.append(row)
-        
-    return jsonify({'countries': countries})
-
-#COUNTRY'S EMISSIONS
+#EMISSIONS PER COUNTRY AND YEAR + POPULATION
 @app.route('/api/countries/<country>', methods=['GET', 'POST'])
 def get_countryid(country):
     #indexes
@@ -76,8 +60,13 @@ def get_countryid(country):
                     headers.append(row[headeri])
                     headeri = headeri + 1
                 for x in range(4,last):
-                    emissions.append(row[countryi])
-                    countryi = countryi + 1
+                    if row[countryi] != "":
+                        emission = float(row[countryi])
+                        emission = format(emission, ".2f")
+                        emissions.append(emission)
+                        countryi = countryi + 1
+                    else:
+                        emissions.append(0)
 
     #get populations
     with open('population.csv') as populationfile:
@@ -99,10 +88,11 @@ def get_countryid(country):
         if ems != "" and pop != "":
             percapitanumber = float(ems) / int(pop)
             percapitanumber = format(percapitanumber, ".5f")
-            print(percapitanumber)
+            percapitanumber = float(percapitanumber)
             percapitas.append(percapitanumber)
+            print(type(percapitanumber))
         else:
-            percapitas.append("")
+            percapitas.append(0)
             
         percapitai = percapitai + 1
 
